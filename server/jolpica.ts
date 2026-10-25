@@ -37,6 +37,15 @@ export class Jolpica {
     const list = lists[0];
     const rows = list[driver ? 'DriverStandings' : 'ConstructorStandings'];
     if (!Array.isArray(rows) || Number(data.total) !== rows.length) throw new Error('Ofullständig mästerskapstabell');
+    if (driver) for (const row of rows) {
+      if (!Array.isArray(row.Constructors) || row.Constructors.length <= 1) continue;
+      const results = await this.request(`${year}/drivers/${encodeURIComponent(row.Driver.driverId)}/results.json?limit=100`);
+      const races = results.RaceTable?.Races;
+      if (!Array.isArray(races) || Number(results.total) !== races.length) throw new Error('Ofullständiga förarresultat');
+      const latest = [...races].sort((a, b) => Number(b.round) - Number(a.round))[0]?.Results?.[0]?.Constructor;
+      if (!latest?.constructorId || !latest.name) throw new Error('Kan inte fastställa förarens senaste lag');
+      row.Constructors = [latest];
+    }
     return { round: Number(list.round), rows: rows.map((r: ObjectData) => {
       if (!Number(r.position) || r.points == null || r.wins == null || (driver ? !r.Driver?.familyName || !Array.isArray(r.Constructors) : !r.Constructor?.name)) throw new Error('Ogiltig tabellrad');
       return { position: Number(r.position), name: driver ? `${r.Driver.givenName} ${r.Driver.familyName}` : r.Constructor.name, ...(driver ? { code: r.Driver.code || undefined, nationality: r.Driver.nationality, teamIds: r.Constructors.map((c: ObjectData) => c.constructorId) } : {}), team: driver ? r.Constructors.map((c: ObjectData) => c.name).join(' / ') : r.Constructor.name, points: String(r.points), wins: Number(r.wins) };

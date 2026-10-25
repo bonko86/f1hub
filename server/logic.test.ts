@@ -7,6 +7,17 @@ import { normalizeRace, Jolpica } from './jolpica.js';
 import { Cache } from './cache.js';
 import { selectRace, Service } from './service.js';
 import { countdown, stockholm } from '../shared/time.js';
+test('förare med flera lag använder endast laget från senaste omgången', async () => {
+  const api = new Jolpica('https://example.com/');
+  const old = { constructorId: 'red_bull', name: 'Red Bull' };
+  const current = { constructorId: 'rb', name: 'RB F1 Team' };
+  api.request = async path => path.includes('driverstandings')
+    ? { total: '1', StandingsTable: { StandingsLists: [{ round: '17', DriverStandings: [{ position: '9', points: '75', wins: '0', Driver: { driverId: 'lawson', givenName: 'Liam', familyName: 'Lawson', code: 'LAW', nationality: 'New Zealander' }, Constructors: [old, current] }] }] } }
+    : { total: '2', RaceTable: { Races: [{ round: '17', Results: [{ Constructor: current }] }, { round: '1', Results: [{ Constructor: old }] }] } };
+  const standings = await api.standings(2026, 'drivers');
+  assert.deepEqual(standings.rows[0].teamIds, ['rb']);
+  assert.equal(standings.rows[0].team, 'RB F1 Team');
+});
 const raw = (round = 1) => ({ season: '2026', round: String(round), raceName: 'Test GP', date: '2026-03-29', time: '13:00:00Z', Circuit: { circuitName: 'Test Circuit', Location: { country: 'Test', locality: 'Test' } }, FirstPractice: { date: '2026-03-27', time: '12:00:00Z' }, Qualifying: { date: '2026-03-28', time: '13:00:00Z' } });
 test('normal helg och sprinthelg använder bara publicerade sessioner', () => {
   assert.deepEqual(normalizeRace(raw()).sessions.map(s => s.name), ['Träning 1', 'Kvalificering', 'Race']);

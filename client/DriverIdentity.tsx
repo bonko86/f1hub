@@ -17,7 +17,8 @@ export function DriverIdentity({ driver }: { driver: Standing }) {
   return <span className="driver-identity">
     {country && <img className="driver-flag" src={`/flags/${country.code}.png`} alt={country.name} title={country.name} width="24" height="16"/>}
     {driver.code && <strong className="driver-code">{driver.code}</strong>}
-    <span className="team-icons" aria-hidden="true">{driver.teamIds?.filter(id => icons.has(id)).map(id => <img key={id} src={`/teams/${id}.webp`} alt="" width="26" height="26"/>)}</span>
-    <span className="driver-details">{driver.name}<small>{driver.team}</small></span>
+    <span className="team-icons" aria-hidden="true">{(driver.teamIds?.length === 1 ? driver.teamIds : []).filter(id => icons.has(id)).map(id => id === 'aston_martin'
+      ? <svg key={id} className="aston-martin-icon" viewBox="394 516 809 202" width="26" height="26"><image href="/teams/aston-martin-source.png" width="1600" height="1200"/></svg>
+      : <img key={id} src={`/teams/${id}.webp`} alt="" width="26" height="26"/>)}</span>
   </span>;
 }
