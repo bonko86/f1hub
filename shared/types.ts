@@ -1,4 +1,4 @@
 export interface Session { name: string; date: string; start: string | null }
 export interface Race { season: number; round: number; name: string; circuit: string; latitude?: number; longitude?: number; country: string; locality: string; date: string; start: string | null; sessions: Session[] }
 export interface Standing { position: number; name: string; code?: string; nationality?: string; team: string; teamIds?: string[]; points: string; wins: number }
-export interface Dashboard { loading: boolean; season: number; race: Race | null; status: 'upcoming' | 'awaiting-results' | 'season-ended' | 'unavailable'; drivers: Standing[]; constructors: Standing[]; updated: Record<string, string>; errors: string[]; standingsRound: { drivers: number | null; constructors: number | null } }
+export interface Dashboard { seasonRaceCount?: number; loading: boolean; season: number; race: Race | null; status: 'upcoming' | 'awaiting-results' | 'season-ended' | 'unavailable'; drivers: Standing[]; constructors: Standing[]; updated: Record<string, string>; errors: string[]; standingsRound: { drivers: number | null; constructors: number | null } }

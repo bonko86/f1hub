@@ -29,3 +29,5 @@ h1,h2{font-family:'Formula 1',Arial,sans-serif;font-weight:700}
 .circuit-facts .record-holder{font-size:10px;line-height:1.6;color:#a6b0aa;margin:6px 0 0;overflow-wrap:anywhere}@media(max-width:480px){.circuit-facts .record-holder{font-size:9px}}
 .circuit-facts .record-holder{font-family:Arial,sans-serif;font-weight:400}
 .grand-prix-layout>.race-card{align-self:start}
+.race-column{display:flex;flex-direction:column;gap:24px;min-width:0;align-self:start}.round-card{padding:26px 30px;background:#191e1f;border-top:1px solid #343a38}.round-card>.eyebrow{color:#a6b0aa}.round-card h2{font-size:17px;margin:12px 0 16px;line-height:1.5}.round-card p{display:flex;align-items:baseline;gap:12px;margin:0;font-family:'Formula 1',Arial,sans-serif}.round-card strong{font-size:40px;line-height:1.2}.round-card p>span{font-size:20px;color:#a6b0aa}@media(max-width:480px){.round-card{padding:22px}.race-column{gap:22px}}
+.race-card{border-top:3px solid #ec593e}.circuit-card,.round-card,.championship{border:0;border-top:3px solid #343a38}
