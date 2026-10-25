@@ -27,7 +27,7 @@ function App() {
       <div className="grand-prix-layout"><section className="race-card"><div className="race-meta"><span className="eyebrow">KOMMANDE GRAND PRIX</span>{race && <span>{race.season} / OMGÅNG {String(race.round).padStart(2, '0')}</span>}</div>
       
         {race ? <><h1>{race.name}</h1><p className="race-subheader">{race.start ? stockholm(race.start, { weekday: 'long', hour: '2-digit', minute: '2-digit' }).replace(':', '.') : 'Starttid ej publicerad'}</p><p className="location">{race.circuit}<br/><span>{race.locality}, {race.country}</span></p></> : <><h1>{data.status === 'season-ended' ? 'Säsongen är avslutad' : 'Kalender inväntas'}</h1><p>Nästa Grand Prix visas när kalendern är tillgänglig.</p></>}
-      <section className="countdown" aria-label="Nästa session"><span className="indicator"/><div><span className="eyebrow">{data.status === 'awaiting-results' ? 'RESULTAT INVÄNTAS' : next ? `NÄSTA · ${next.name.toUpperCase()}` : 'NÄSTA SESSION'}</span><p>{next?.start ? countdown(next.start, now) : data.status === 'awaiting-results' ? 'Helgen behålls tills loppresultat publicerats.' : 'Ingen kommande session publicerad.'}</p></div></section>
+      <section className="countdown" aria-label="Nästa session"><div><span className="eyebrow countdown-heading">RACE START</span><p>{next?.start ? countdown(next.start, now) : data.status === 'awaiting-results' ? 'Helgen behålls tills loppresultat publicerats.' : 'Ingen kommande session publicerad.'}</p></div></section>
       </section>
       {race && <CircuitMap race={race}/>}</div>
       

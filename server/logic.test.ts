@@ -35,7 +35,11 @@ test('Stockholm hanterar både sommar- och vintertidsövergång', () => {
   const fmt = (s: string) => stockholm(s, { hour: '2-digit', minute: '2-digit' });
   assert.equal(fmt('2026-03-29T00:30:00Z'), '01:30'); assert.equal(fmt('2026-03-29T01:30:00Z'), '03:30');
   assert.equal(fmt('2026-10-25T00:30:00Z'), '02:30'); assert.equal(fmt('2026-10-25T01:30:00Z'), '02:30');
-  assert.equal(countdown('2026-03-29T13:00:00Z', Date.parse('2026-03-28T08:28:00Z')), '1 d 4 h 32 min');
+  assert.equal(countdown('2026-03-29T13:00:00Z', Date.parse('2026-03-28T08:28:00Z')), '1d 4h 32min');
+  assert.equal(countdown('2026-03-29T13:00:00Z', Date.parse('2026-03-29T10:16:00Z')), '2h 44min');
+  assert.equal(countdown('2026-03-29T13:00:00Z', Date.parse('2026-03-29T12:16:00Z')), '44min');
+  assert.equal(countdown('2026-03-29T13:00:00Z', Date.parse('2026-03-27T13:00:00Z')), '2d 0h 0min');
+  assert.equal(countdown('2026-03-29T13:00:00Z', Date.parse('2026-03-29T13:00:00Z')), '0min');
 });
 test('SQLite är persistent och backup är läsbar', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'f1-test-')); const path = join(dir, 'test.sqlite');
