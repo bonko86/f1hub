@@ -26,7 +26,7 @@ function App() {
     {!data || data.loading ? <section className="empty" role="status">{error ? 'Informationen är inte tillgänglig just nu.' : 'Hämtar och verifierar tävlingshelgen. Första starten kan ta någon minut…'}</section> : <div className="layout page-layout"><div hidden={page !== 'overview'}>
       <div className="grand-prix-layout"><section className="race-card">
       
-        {race ? <><h1>{race.name}</h1><p className="race-subheader">{race.start ? stockholm(race.start, { weekday: 'long', hour: '2-digit', minute: '2-digit' }).replace(':', '.') : 'Starttid ej publicerad'}</p></> : <><h1>{data.status === 'season-ended' ? 'Säsongen är avslutad' : 'Kalender inväntas'}</h1><p>Nästa Grand Prix visas när kalendern är tillgänglig.</p></>}
+        {race ? <><p className="race-subheader">{race.start ? <>{date(race.start)}<br/>{stockholm(race.start, { weekday: 'long', hour: '2-digit', minute: '2-digit' }).replace(':', '.')}</> : 'Starttid ej publicerad'}</p><h1>{race.name}</h1></> : <><h1>{data.status === 'season-ended' ? 'Säsongen är avslutad' : 'Kalender inväntas'}</h1><p>Nästa Grand Prix visas när kalendern är tillgänglig.</p></>}
       <section className="countdown" aria-label="Nedräkning till racestart"><div><span className="eyebrow countdown-heading">{data.status === 'awaiting-results' ? 'Resultat inväntas' : 'Startar om'}</span><p>{data.status === 'awaiting-results' ? 'Racet pågår' : race?.start ? countdown(race.start, now) : 'Starttid ej publicerad'}</p></div></section>
       </section>
       {race && <CircuitMap race={race}/>}</div>
