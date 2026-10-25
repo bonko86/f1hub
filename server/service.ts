@@ -63,6 +63,6 @@ export class Service {
     const calendar = this.cache.get(`calendar:${race?.season ?? season}`);
     if (calendar) updated.calendar = calendar.updated;
     if (race) { const result = this.cache.get(`result:${race.season}:${race.round}`); if (result) updated.results = result.updated; }
-    return { seasonRaceCount: this.races(race?.season ?? season).length, loading: !this.initialized, season, race, status, drivers: drivers.rows, constructors: constructors.rows, updated, errors: [...new Set(this.errors.values())], standingsRound: { drivers: drivers.round, constructors: constructors.round } };
+    return { completedRounds: [...this.completed(race?.season ?? season)], calendar: this.races(race?.season ?? season), calendarSeason: race?.season ?? season, seasonRaceCount: this.races(race?.season ?? season).length, loading: !this.initialized, season, race, status, drivers: drivers.rows, constructors: constructors.rows, updated, errors: [...new Set(this.errors.values())], standingsRound: { drivers: drivers.round, constructors: constructors.round } };
   }
 }
