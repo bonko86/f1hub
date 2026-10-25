@@ -8,7 +8,7 @@ export function normalizeRace(r: ObjectData): Race {
   const raceStart = start(r.date, r.time);
   sessions.push({ name: 'Race', date: r.date, start: raceStart });
   sessions.sort((a, b) => (a.start || a.date).localeCompare(b.start || b.date));
-  return { season: Number(r.season), round: Number(r.round), name: r.raceName, circuit: r.Circuit.circuitName, country: r.Circuit.Location.country, locality: r.Circuit.Location.locality, date: r.date, start: raceStart, sessions };
+  return { season: Number(r.season), round: Number(r.round), name: r.raceName, circuit: r.Circuit.circuitName, latitude: Number(r.Circuit.Location.lat), longitude: Number(r.Circuit.Location.long), country: r.Circuit.Location.country, locality: r.Circuit.Location.locality, date: r.date, start: raceStart, sessions };
 }
 export class Jolpica {
   private lastRequest = 0;
