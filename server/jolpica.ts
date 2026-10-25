@@ -48,7 +48,7 @@ export class Jolpica {
     }
     return { round: Number(list.round), rows: rows.map((r: ObjectData) => {
       if (!Number(r.position) || r.points == null || r.wins == null || (driver ? !r.Driver?.familyName || !Array.isArray(r.Constructors) : !r.Constructor?.name)) throw new Error('Ogiltig tabellrad');
-      return { position: Number(r.position), name: driver ? `${r.Driver.givenName} ${r.Driver.familyName}` : r.Constructor.name, ...(driver ? { code: r.Driver.code || undefined, nationality: r.Driver.nationality, teamIds: r.Constructors.map((c: ObjectData) => c.constructorId) } : {}), team: driver ? r.Constructors.map((c: ObjectData) => c.name).join(' / ') : r.Constructor.name, points: String(r.points), wins: Number(r.wins) };
+      return { position: Number(r.position), name: driver ? `${r.Driver.givenName} ${r.Driver.familyName}` : r.Constructor.name, ...(driver ? { code: r.Driver.code || undefined, nationality: r.Driver.nationality, teamIds: r.Constructors.map((c: ObjectData) => c.constructorId) } : { teamIds: [r.Constructor.constructorId] }), team: driver ? r.Constructors.map((c: ObjectData) => c.name).join(' / ') : r.Constructor.name, points: String(r.points), wins: Number(r.wins) };
     }).sort((a: Standing, b: Standing) => a.position - b.position) };
   }
   async result(year: number, round: number): Promise<boolean> {
