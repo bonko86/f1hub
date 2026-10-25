@@ -6,7 +6,14 @@ import { join } from 'node:path';
 import { normalizeRace, Jolpica } from './jolpica.js';
 import { Cache } from './cache.js';
 import { selectRace, Service } from './service.js';
-import { countdown, stockholm } from '../shared/time.js';
+import { countdown, stockholm, formatRaceStart } from '../shared/time.js';
+test('racestart använder språkets datumordning och vald tidszon', () => {
+  assert.equal(formatRaceStart('2026-10-25T20:00:00Z'), 'Söndag 25 oktober kl. 21.00');
+  assert.equal(formatRaceStart('2026-07-05T19:00:00Z'), 'Söndag 5 juli kl. 21.00');
+  const english = formatRaceStart('2026-10-25T20:00:00Z', 'en-US', 'UTC');
+  assert.match(english, /October 25/);
+  assert.match(english, /08:00/);
+});
 test('förare med flera lag använder endast laget från senaste omgången', async () => {
   const api = new Jolpica('https://example.com/');
   const old = { constructorId: 'red_bull', name: 'Red Bull' };
@@ -37,9 +44,12 @@ test('Stockholm hanterar både sommar- och vintertidsövergång', () => {
   assert.equal(fmt('2026-10-25T00:30:00Z'), '02:30'); assert.equal(fmt('2026-10-25T01:30:00Z'), '02:30');
   assert.equal(countdown('2026-03-29T13:00:00Z', Date.parse('2026-03-28T08:28:00Z')), '1d 4h 32min');
   assert.equal(countdown('2026-03-29T13:00:00Z', Date.parse('2026-03-29T10:16:00Z')), '2h 44min');
-  assert.equal(countdown('2026-03-29T13:00:00Z', Date.parse('2026-03-29T12:16:00Z')), '44min');
+  assert.equal(countdown('2026-03-29T13:00:00Z', Date.parse('2026-03-29T12:16:00Z')), '44min 0s');
   assert.equal(countdown('2026-03-29T13:00:00Z', Date.parse('2026-03-27T13:00:00Z')), '2d 0h 0min');
-  assert.equal(countdown('2026-03-29T13:00:00Z', Date.parse('2026-03-29T13:00:00Z')), '0min');
+  assert.equal(countdown('2026-03-29T13:00:00Z', Date.parse('2026-03-29T13:00:00Z')), '0min 0s');
+  assert.equal(countdown('2026-03-29T13:00:00Z', Date.parse('2026-03-29T12:00:00Z')), '1h 0min');
+  assert.equal(countdown('2026-03-29T13:00:00Z', Date.parse('2026-03-29T12:00:01Z')), '59min 59s');
+  assert.equal(countdown('2026-03-29T13:00:00Z', Date.parse('2026-03-29T12:59:18Z')), '0min 42s');
 });
 test('SQLite är persistent och backup är läsbar', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'f1-test-')); const path = join(dir, 'test.sqlite');
