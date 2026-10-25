@@ -28,3 +28,4 @@ h1,h2{font-family:'Formula 1',Arial,sans-serif;font-weight:700}
 .circuit-facts{row-gap:20px}.circuit-facts>div:nth-child(3n+1){padding-left:0;border-left:0}@media(max-width:350px){.circuit-facts>div{padding:0;border:0}}
 .circuit-facts .record-holder{font-size:10px;line-height:1.6;color:#a6b0aa;margin:6px 0 0;overflow-wrap:anywhere}@media(max-width:480px){.circuit-facts .record-holder{font-size:9px}}
 .circuit-facts .record-holder{font-family:Arial,sans-serif;font-weight:400}
+.grand-prix-layout>.race-card{align-self:start}
