@@ -17,8 +17,6 @@ function App() {
     void load(); const poll = setInterval(() => void load(), 60000); const clock = setInterval(() => setNow(Date.now()), 1000);
     return () => { controller.abort(); clearInterval(poll); clearInterval(clock); };
   }, []);
-  const clientZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const clientTime = new Intl.DateTimeFormat('sv-SE', { dateStyle: 'short', timeStyle: 'medium', timeZone: clientZone }).format(now);
   const race = data?.race;
   const next = race?.sessions.find(s => s.start && Date.parse(s.start) > now);
   const date = (value: string) => stockholm(value, { day: 'numeric', month: 'long' });
@@ -29,7 +27,7 @@ function App() {
       <div className="grand-prix-layout"><section className="race-card">
       
         {race ? <><h1>{race.name}</h1><p className="race-subheader">{race.start ? stockholm(race.start, { weekday: 'long', hour: '2-digit', minute: '2-digit' }).replace(':', '.') : 'Starttid ej publicerad'}</p></> : <><h1>{data.status === 'season-ended' ? 'Säsongen är avslutad' : 'Kalender inväntas'}</h1><p>Nästa Grand Prix visas när kalendern är tillgänglig.</p></>}
-      <section className="countdown" aria-label="Nedräkning till racestart"><div><span className="eyebrow countdown-heading">{data.status === 'awaiting-results' ? 'Resultat inväntas' : 'Startar om'}</span><p>{data.status === 'awaiting-results' ? 'Helgen behålls tills loppresultat publicerats.' : race?.start ? countdown(race.start, now) : 'Starttid ej publicerad'}</p></div></section>
+      <section className="countdown" aria-label="Nedräkning till racestart"><div><span className="eyebrow countdown-heading">{data.status === 'awaiting-results' ? 'Resultat inväntas' : 'Startar om'}</span><p>{data.status === 'awaiting-results' ? 'Racet pågår' : race?.start ? countdown(race.start, now) : 'Starttid ej publicerad'}</p></div></section>
       </section>
       {race && <CircuitMap race={race}/>}</div>
       
@@ -40,13 +38,7 @@ function App() {
       {data[tab].length ? <table className="standings"><caption className="sr-only">{tab === 'drivers' ? 'Förarmästerskapet' : 'Konstruktörsmästerskapet'}</caption><thead><tr><th>Pl.</th><th>{tab === 'drivers' ? 'Förare' : 'Stall'}</th>{tab === 'drivers' && <th className="team-column">Stall</th>}<th>Poäng</th></tr></thead><tbody>{data[tab].map(row => <tr key={row.position}><td className="position">{String(row.position).padStart(2, '0')}</td><th scope="row">{tab === 'drivers' ? <DriverIdentity driver={row}/> : <span className="constructor-identity"><DriverTeam driver={row}/>{row.name}</span>}</th>{tab === 'drivers' && <td className="team-column"><DriverTeam driver={row}/></td>}<td className="points">{row.points}</td></tr>)}</tbody></table> : <p className="empty">Inga mästerskapsuppgifter tillgängliga.</p>}
       </div></aside></div>}
     <footer className="metadata-footer">
-      <span>F1 · GRAND PRIX</span>
-      <div className="metadata-grid">
-        <p><strong>Klientens tid</strong>{clientTime}<br/>{clientZone === 'Europe/Stockholm' ? 'Svensk tid' : 'Lokal tid'} – {clientZone}</p>
-        <p><strong>Sessionstider</strong>Svensk tid – Europe/Stockholm</p>
-        {data && Object.entries(data.updated).map(([key, updated]) => <p key={key}><strong>{{ calendar: 'Kalender uppdaterad', results: 'Resultat kontrollerade', drivers: 'Förarställning uppdaterad', constructors: 'Konstruktörsställning uppdaterad' }[key] || key}</strong>{stockholm(updated, { dateStyle: 'short', timeStyle: 'short' })}{key === 'drivers' || key === 'constructors' ? <><br/>Efter omgång {data.standingsRound[key] ?? '–'} · Säsong {data.season}</> : null}</p>)}
-      </div>
-      <p>API: <a href="https://api.jolpi.ca/docs/" target="_blank" rel="noreferrer">Jolpica F1</a> · Bandata: <a href="https://github.com/bacinger/f1-circuits" target="_blank" rel="noreferrer">Tomislav Bacinger</a> (schematisk bansträckning)</p>
+      <p>API: <a href="https://api.jolpi.ca/docs/" target="_blank" rel="noreferrer">Jolpica F1</a></p>
       <p>Fristående, inofficiell applikation</p>
     </footer>
   </main></>;
