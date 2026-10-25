@@ -12,11 +12,11 @@ Copy-Item .env.example .env
 npm.cmd run dev
 ```
 
-Öppna adressen Vite visar, normalt http://localhost:5173. Backend kör på port 3000. `PORT` i `.env` används även av Vites proxy. SQLite skapas automatiskt i `data/f1.sqlite`. Första hämtningen kan ta någon minut eftersom även föregående säsongs resultat verifieras. Ingen exempeldata visas i applikationen.
+Öppna adressen Vite visar, normalt http://localhost:5180. Backend kör lokalt på port 3107 enligt `.env.example`. `PORT` i `.env` används även av Vites proxy. SQLite skapas automatiskt i `data/f1.sqlite`. Första hämtningen kan ta någon minut eftersom även föregående säsongs resultat verifieras. Ingen exempeldata visas i applikationen.
 
-Om port 3000 redan används, välj en ledig `PORT` i `.env` och starta om utvecklingskommandot. Vites proxy använder `localhost` för att nå samma backend även när Windows skiljer på IPv4 och IPv6.
+Välj vid behov andra lediga portar med `PORT` (backend) och `VITE_PORT` (frontend) i `.env` och starta om utvecklingskommandot. Vite avslutar med ett tydligt fel om den valda porten är upptagen. Vites proxy använder `localhost` för att nå samma backend även när Windows skiljer på IPv4 och IPv6.
 
-`npm.cmd test` kör logik-, tidszons-, cache- och backuptester. `npm.cmd run build` typkontrollerar och bygger båda delarna. `npm.cmd start` serverar det färdiga bygget via Express på http://localhost:3000.
+`npm.cmd test` kör logik-, tidszons-, cache- och backuptester. `npm.cmd run build` typkontrollerar och bygger båda delarna. `npm.cmd start` serverar det färdiga bygget via Express på http://localhost:3107 med den lokala `.env`-filen. Docker använder fortsatt intern port 3000.
 
 ## Struktur och API
 

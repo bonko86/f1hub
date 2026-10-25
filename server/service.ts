@@ -12,7 +12,8 @@ export class Service {
   private async refresh<T>(key: string, interval: number, fetcher: () => Promise<T>) {
     const saved = this.cache.get<T>(key);
     const now = Date.now();
-    if (saved && now - Date.parse(saved.updated) < interval) return;
+    const legacyDrivers = key.startsWith('drivers:') && (saved?.value as { rows?: Standing[] } | undefined)?.rows?.some(row => !row.teamIds || row.nationality === undefined);
+    if (saved && !legacyDrivers && now - Date.parse(saved.updated) < interval) return;
     if (now - (this.attempts.get(key) ?? 0) < Math.min(interval, 300000)) return;
     this.attempts.set(key, now);
     try { this.cache.set(key, await fetcher()); this.errors.delete(key); }
