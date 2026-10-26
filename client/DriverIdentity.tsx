@@ -1,15 +1,16 @@
 import type { Standing } from '../shared/types.js';
+import { t } from './i18n.js';
 
 const icons = new Set(['mercedes', 'ferrari', 'mclaren', 'red_bull', 'rb', 'alpine', 'haas', 'audi', 'williams', 'aston_martin', 'cadillac']);
 const countries: Record<string, { code: string; name: string }> = {
-  Italian: { code: 'it', name: 'Italien' }, British: { code: 'gb', name: 'Storbritannien' },
-  Dutch: { code: 'nl', name: 'Nederländerna' }, Monegasque: { code: 'mc', name: 'Monaco' },
-  Australian: { code: 'au', name: 'Australien' }, French: { code: 'fr', name: 'Frankrike' },
-  'New Zealander': { code: 'nz', name: 'Nya Zeeland' }, Argentine: { code: 'ar', name: 'Argentina' },
-  German: { code: 'de', name: 'Tyskland' }, Brazilian: { code: 'br', name: 'Brasilien' },
-  Spanish: { code: 'es', name: 'Spanien' }, Thai: { code: 'th', name: 'Thailand' },
-  Japanese: { code: 'jp', name: 'Japan' }, Canadian: { code: 'ca', name: 'Kanada' },
-  Finnish: { code: 'fi', name: 'Finland' }, Mexican: { code: 'mx', name: 'Mexiko' }
+  Italian: { code: 'it', name: t('country.it') }, British: { code: 'gb', name: t('country.gb') },
+  Dutch: { code: 'nl', name: t('country.nl') }, Monegasque: { code: 'mc', name: t('country.mc') },
+  Australian: { code: 'au', name: t('country.au') }, French: { code: 'fr', name: t('country.fr') },
+  'New Zealander': { code: 'nz', name: t('country.nz') }, Argentine: { code: 'ar', name: t('country.ar') },
+  German: { code: 'de', name: t('country.de') }, Brazilian: { code: 'br', name: t('country.br') },
+  Spanish: { code: 'es', name: t('country.es') }, Thai: { code: 'th', name: t('country.th') },
+  Japanese: { code: 'jp', name: t('country.jp') }, Canadian: { code: 'ca', name: t('country.ca') },
+  Finnish: { code: 'fi', name: t('country.fi') }, Mexican: { code: 'mx', name: t('country.mx') }
 };
 
 export function DriverIdentity({ driver }: { driver: Standing }) {

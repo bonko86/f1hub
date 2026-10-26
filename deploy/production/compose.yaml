@@ -1,0 +1,38 @@
+name: f1-hubb
+services:
+  f1:
+    container_name: f1-hubb
+    image: ${F1_IMAGE:-f1-hubb:current}
+    user: "1000:1000"
+    build:
+      context: ${F1_BUILD_CONTEXT:?Set by the protected deployment runner}
+      dockerfile: /etc/f1-hubb/build/Dockerfile
+    restart: unless-stopped
+    init: true
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      DATABASE_PATH: /app/data/f1.sqlite
+      JOLPICA_BASE_URL: https://api.jolpi.ca/ergast/f1/
+      CALENDAR_INTERVAL_MINUTES: "720"
+      STANDINGS_INTERVAL_MINUTES: "360"
+      WEEKEND_INTERVAL_MINUTES: "30"
+      RESULTS_INTERVAL_MINUTES: "5"
+    volumes:
+      - f1_data:/app/data
+      - f1_backups:/app/backups
+    expose:
+      - "3000"
+    networks:
+      - proxy
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+networks:
+  proxy:
+    external: true
+    name: proxy-net
+volumes:
+  f1_data:
+  f1_backups:

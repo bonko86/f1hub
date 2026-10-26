@@ -1,0 +1,4 @@
+#!/bin/bash -p
+set -e
+[[ "$#" == 0 ]] || exit 1
+exec /usr/bin/env -i PATH=/usr/sbin:/usr/bin:/sbin:/bin HOME=/root LANG=C.UTF-8 /bin/bash -p /etc/f1-hubb/control.sh status

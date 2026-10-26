@@ -40,7 +40,9 @@ Kalenderåret väljs dynamiskt. Föregående års oavslutade kalender behålls �
 
 ## Docker – förberett, ingen automatisk deployment
 
-Planerad produktionsadress: **https://f1.mikaelstenberg.com**. Detta är måladressen för en framtida, separat godkänd deployment; DNS, proxy host och HTTPS-certifikat är inte konfigurerade eller verifierade genom denna dokumentation.
+För servermiljön med SSH-kontot `codex-f1`, projektet/containern `f1-hubb` och nätverket `proxy-net`, följ i stället den specifika [deploymentinstruktionen](deploy/README.md). Produktionskonfigurationen ligger skyddad under `/etc/f1-hubb`; projektets vanliga `compose.yaml` ersätter den inte. Administratören installerade de granskade hjälparna 2026-10-26. Applikationen och en uppdatering har verifierats på [https://f1.mikaelstenberg.com](https://f1.mikaelstenberg.com), se [verifieringsrapporten](deploy/VERIFICATION.md). De generella Compose-exemplen nedan är inte serverns publiceringsflöde.
+
+Produktionsadress: **https://f1.mikaelstenberg.com**. Publik HTTPS-åtkomst har verifierats. DNS, proxy host och HTTPS-certifikat hanteras av serverägaren och har inte ändrats av agenten.
 
 Projektet använder befintliga konfigurationsfiler och behöver ingen separat produktionsmall. `.env` är den aktiva lokala konfigurationen och `.env.example` är mallen utan hemligheter. `compose.yaml` anger containerns produktionsvärden: `PORT=3000` och `DATABASE_PATH=/app/data/f1.sqlite`. Utvecklingsportarna `PORT=3107` och `VITE_PORT=5180` används inte i Docker. Compose läser övriga angivna inställningar från miljön eller `.env`, med standardvärden i Compose-filen. `PROXY_NETWORK` ska motsvara det befintliga nätverk som Nginx Proxy Manager använder.
 
@@ -66,6 +68,6 @@ API-dokumentation: https://api.jolpi.ca/docs/ . Projektet har ingen koppling til
 
 ## Genomförd lokal verifiering
 
-Typkontroll och produktionsbygge har körts. Automatiska tester omfattar normala/sprinthelger, saknade tider, felaktig kalender, båda svenska tidsomställningarna, nedräkning, resultatstyrt loppbyte, nyår/säsongsslut, cache vid API-fel, samtidiga uppdateringar samt persistent SQLite och konsistent backup. Riktiga kalender-, resultat-, WDC- och WCC-svar har hämtats och använts lokalt. Gränssnittet har kontrollerats i webbläsare på desktop och mobil (390 px), inklusive flikväxling och avsaknad av horisontell overflow. Produktionsservern har inte kontaktats.
+Typkontroll och produktionsbygge har körts. Automatiska tester omfattar normala/sprinthelger, saknade tider, felaktig kalender, båda svenska tidsomställningarna, nedräkning, resultatstyrt loppbyte, nyår/säsongsslut, cache vid API-fel, samtidiga uppdateringar samt persistent SQLite och konsistent backup. Riktiga kalender-, resultat-, WDC- och WCC-svar har hämtats och använts lokalt. Gränssnittet har kontrollerats i webbläsare på desktop och mobil (390 px), inklusive flikväxling och avsaknad av horisontell overflow. Dessa lokala kontroller kompletteras nu av serververifieringen i deploymentrapporten.
 
-Docker finns inte installerat i verifieringsmiljön: `docker compose config`, imagebygge, containerstart, volymrättigheter och proxyanslutning återstår att verifiera i en Docker-miljö. Ingen deployment har utförts.
+Docker finns inte installerat i Windows-utvecklingsmiljön. Serverns separata Docker-verifiering, inklusive imagebygge, containerstart, volymrättigheter och publik proxyåtkomst, slutfördes 2026-10-26 och dokumenteras i [deploymentrapporten](deploy/VERIFICATION.md).

@@ -4,9 +4,9 @@ const labels: Record<string, string> = { FirstPractice: 'Träning 1', SecondPrac
 function start(date: string, time?: string): string | null { if (!time) return null; const value = `${date}T${time}`; if (!Number.isFinite(Date.parse(value))) throw new Error('Ogiltig sessionstid'); return value; }
 export function normalizeRace(r: ObjectData): Race {
   if (!r.raceName || !r.Circuit?.Location || !/^\d{4}-\d{2}-\d{2}$/.test(r.date) || !Number(r.round)) throw new Error('Ogiltigt kalenderformat');
-  const sessions = Object.entries(labels).filter(([key]) => r[key]?.date).map(([key, name]) => ({ name, date: r[key].date, start: start(r[key].date, r[key].time) }));
+  const sessions = Object.entries(labels).filter(([key]) => r[key]?.date).map(([key, name]) => ({ name, kind: key === 'SprintShootout' ? 'SprintQualifying' : key, date: r[key].date, start: start(r[key].date, r[key].time) }));
   const raceStart = start(r.date, r.time);
-  sessions.push({ name: 'Race', date: r.date, start: raceStart });
+  sessions.push({ name: 'Race', kind: 'Race', date: r.date, start: raceStart });
   sessions.sort((a, b) => (a.start || a.date).localeCompare(b.start || b.date));
   return { season: Number(r.season), round: Number(r.round), name: r.raceName, circuit: r.Circuit.circuitName, latitude: Number(r.Circuit.Location.lat), longitude: Number(r.Circuit.Location.long), country: r.Circuit.Location.country, locality: r.Circuit.Location.locality, date: r.date, start: raceStart, sessions };
 }

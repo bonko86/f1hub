@@ -1,0 +1,2 @@
+Defaults:codex-f1 env_reset, !setenv
+codex-f1 ALL=(root) NOPASSWD: /usr/local/sbin/deploy-f1-hubb "", /usr/local/sbin/status-f1-hubb "", /usr/local/sbin/rollback-f1-hubb ""

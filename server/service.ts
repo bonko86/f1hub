@@ -19,7 +19,7 @@ export class Service {
     if (now - (this.attempts.get(key) ?? 0) < Math.min(interval, 300000)) return;
     this.attempts.set(key, now);
     try { this.cache.set(key, await fetcher()); this.errors.delete(key); }
-    catch (error) { this.errors.set(key, 'Uppdateringen misslyckades. Sparad data visas om den finns.'); console.error(`[${key}]`, error instanceof Error ? error.message : 'Okänt fel'); }
+    catch (error) { this.errors.set(key, 'UPSTREAM_UPDATE_FAILED'); console.error(`[${key}]`, error instanceof Error ? error.message : 'Okänt fel'); }
   }
   async tick(now = new Date()) {
     if (this.busy) return;
