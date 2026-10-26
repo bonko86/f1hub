@@ -20,6 +20,10 @@ Välj vid behov andra lediga portar med `PORT` (backend) och `VITE_PORT` (fronte
 
 ## Struktur och API
 
+Livekortet använder en gemensam backendanslutning till F1:s inofficiellt dokumenterade SignalR-flöde via SSE på `https://livetiming.formula1.com/signalrcore`. Ingen API-avgift, ny paketinstallation eller separat tjänst har lagts till. Protokollet har undersökts med https://github.com/julesr0y/f1-livetiming-api som referens; projektets kod eller paket har inte installerats. Åtkomst och format kan ändras.
+
+`GET /api/live` returnerar position, förarkod och stall. Frontend läser denna endpoint var femte sekund medan översikten visas; besökare startar inga egna anslutningar till F1. Live kräver matchande Grand Prix, sessionstyp Race, status Started, giltiga positionsrader och ett Heartbeat yngre än 45 sekunder. Annars döljs positionsraderna och kortet visar vänteläge, inaktuella data eller anslutningsfel. Avbrutna anslutningar återansluts efter 30 sekunder. Data ligger endast i minnet. Backend behöver kunna hålla en utgående HTTPS/SSE-anslutning öppen. Ingen Docker-konfiguration eller produktionsmiljö har ändrats för detta tillägg.
+
 - `client/`: startsida, sessionsschema, nedräkning och mästerskapsflikar.
 - `server/jolpica.ts`: integration, validering och normalisering.
 - `server/cache.ts`: en SQLite-tabell med JSON-värde och lyckad uppdateringstid per nyckel, WAL-läge.
@@ -35,6 +39,10 @@ Kalenderåret väljs dynamiskt. Föregående års oavslutade kalender behålls �
 **Databegränsningar:** Jolpica har inget säkert fält för inställt, pågående eller uppskjutet lopp. Lopp som tas bort ur kalendern försvinner vid kalenderuppdatering. Ändrade tider slår igenom då. Om ett inställt/uppskjutet lopp ligger kvar utan resultat behålls helgen med väntestatus; applikationen gissar inte att den är avslutad. Manuell hantering kan behövas om källan aldrig korrigeras. Saknade starttider visas som opublicerade och används inte för nedräkning. En planerad racestart som passerats betyder endast att resultat inväntas.
 
 ## Docker – förberett, ingen automatisk deployment
+
+Planerad produktionsadress: **https://f1.mikaelstenberg.com**. Detta är måladressen för en framtida, separat godkänd deployment; DNS, proxy host och HTTPS-certifikat är inte konfigurerade eller verifierade genom denna dokumentation.
+
+Projektet använder befintliga konfigurationsfiler och behöver ingen separat produktionsmall. `.env` är den aktiva lokala konfigurationen och `.env.example` är mallen utan hemligheter. `compose.yaml` anger containerns produktionsvärden: `PORT=3000` och `DATABASE_PATH=/app/data/f1.sqlite`. Utvecklingsportarna `PORT=3107` och `VITE_PORT=5180` används inte i Docker. Compose läser övriga angivna inställningar från miljön eller `.env`, med standardvärden i Compose-filen. `PROXY_NETWORK` ska motsvara det befintliga nätverk som Nginx Proxy Manager använder.
 
 En multi-stage-image med Node.js 24 kör Express och byggd frontend som användaren `node`. Compose ansluter endast till ett befintligt externt nätverk, standard `proxy`. Ange det faktiska nätverksnamnet i `PROXY_NETWORK` före deployment. Inga värdportar publiceras och inga gemensamma tjänster ändras. Containerns port 3000 är tillgänglig på nätverket. Nginx Proxy Manager behöver vid en separat godkänd konfiguration peka på tjänsten `f1`, HTTP-port 3000. Domän och HTTPS konfigureras separat av serverägaren.
 
