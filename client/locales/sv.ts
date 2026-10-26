@@ -21,6 +21,7 @@ export const sv = {
     'standings.driverChampionship': 'Förarmästerskapet', 'standings.constructorChampionship': 'Konstruktörsmästerskapet',
     'table.position': 'Pl.', 'table.driver': 'Förare', 'table.team': 'Stall', 'table.points': 'Poäng', 'standings.empty': 'Inga mästerskapsuppgifter tillgängliga.',
     'season.caption': 'Tävlingskalender {year}', 'season.title': 'Säsong {year}', 'season.count': '{count} GRAND PRIX',
+    'season.completed': 'Avslutat', 'season.upcoming': 'Kommande', 'season.hideCompleted': 'Dölj tidigare lopp', 'season.showCompleted': 'Visa tidigare lopp',
     'season.empty': 'Ingen kalender tillgänglig.', 'season.sessions': 'Sessioner för {race}, svensk tid',
     'live.title': 'Positioner', 'live.active': 'Live', 'live.waiting': 'Inväntar data', 'live.updated': 'Uppdaterad {time}',
     'live.scroll': 'Rulla genom livepositioner', 'live.caption': 'Livepositioner i {race}', 'live.connecting': 'Ansluter till livepositioner…',
