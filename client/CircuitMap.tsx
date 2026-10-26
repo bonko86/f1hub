@@ -34,7 +34,7 @@ export function CircuitMap({ race }: { race: Race }) {
     path = points.map(([x, y], index) => `${index ? 'L' : 'M'}${((x - minX) * scale + (500 - width * scale) / 2).toFixed(2)},${((y - minY) * scale + (340 - height * scale) / 2).toFixed(2)}`).join(' ');
   }
   return <section className="circuit-card" aria-label={t('circuit.label')}>
-    <h2>{race.circuit}</h2>
+    <div className="card-heading"><span className="heading-meta">{t('circuit.label')}</span><h2>{race.circuit}</h2></div>
     {path ? <svg className="circuit-map" viewBox="0 0 500 340" role="img" aria-label={t('circuit.outline', { circuit: race.circuit })}><path d={path} fill="none" stroke="#e9ece9" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/></svg> : <p className="empty">{!circuits.length && !failed ? t('circuit.loading') : t('circuit.missing')}</p>}
     {facts.length > 0 && <dl className="circuit-facts">{facts.map(fact => <div key={fact.label}><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}{feature?.properties.lapRecord && <div><dt>{t('circuit.record')}</dt><dd>{feature.properties.lapRecord.time}<p className="record-holder">{feature.properties.lapRecord.driver} · {feature.properties.lapRecord.year}</p></dd></div>}</dl>}
   </section>;
