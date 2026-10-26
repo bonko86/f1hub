@@ -28,10 +28,11 @@ function App() {
     {!data || data.loading ? <section className="empty" role="status">{error ? t('errors.unavailable') : t('loading.weekend')}</section> : <div className="layout page-layout"><div hidden={page !== 'overview'}>
       <div className="grand-prix-layout"><div className="race-column"><section className="race-card">
       
-        {race ? <><p className="race-subheader heading-meta">{race.start ? formatRaceStart(race.start) : t('race.timeMissing')}</p><h1>{race.name}</h1></> : <><h1>{data.status === 'season-ended' ? t('race.seasonEnded') : t('race.calendarPending')}</h1><p>{t('race.nextWhenAvailable')}</p></>}
+        {race ? <><p className="race-subheader heading-meta"><span>{data.status === 'awaiting-results' ? t('race.ongoing') : t('race.next')}</span><span aria-hidden="true"> · </span>{race.start ? formatRaceStart(race.start) : t('race.timeMissing')}</p><h1>{race.name}</h1></> : <><h1>{data.status === 'season-ended' ? t('race.seasonEnded') : t('race.calendarPending')}</h1><p>{t('race.nextWhenAvailable')}</p></>}
+      {race && <p className="race-round" aria-label={t('race.roundLabel')}><span>{t('race.season', { year: race.season })}</span><span>{t('race.round')} <strong>{race.round}</strong> {t('race.of', { count: data.seasonRaceCount || '?' })}</span></p>}
       <section className="countdown" aria-label={t('race.countdown')}><div><span className="eyebrow countdown-heading">{data.status === 'awaiting-results' ? t('race.awaitingResults') : t('race.startsIn')}</span><p>{data.status === 'awaiting-results' ? t('race.ongoing') : race?.start ? countdown(race.start, now) : t('race.timeMissing')}</p></div></section>
       </section>
-      {race && <section className="round-card" aria-label={t('race.roundLabel')}><span className="eyebrow">{t('race.season', { year: race.season })}</span><h2>{t('race.round')}</h2><p><strong>{race.round}</strong><span>{t('race.of', { count: data.seasonRaceCount || '–' })}</span></p></section>}
+
       </div>
       
 

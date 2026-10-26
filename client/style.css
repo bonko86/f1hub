@@ -221,3 +221,48 @@ main{padding-top:32px;padding-bottom:32px}
   .notice{padding:16px 20px}
 }
 @media(max-width:360px){.race-card .countdown>div{gap:8px}}
+
+/* Season and round belong to the race, rather than a separate surface. */
+.race-round{grid-column:1;grid-row:3;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin:8px 0 0;font-family:var(--font-body);font-size:var(--type-detail);line-height:1.6;color:var(--muted)}
+.race-round>span+span{border-left:1px solid var(--line);padding-left:16px}
+.race-round strong{font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
+.race-card .countdown{grid-row:1/4}
+.grand-prix-layout>.schedule,.grand-prix-layout>.circuit-card{grid-row:2}
+.grand-prix-layout:has(.live-status.active)>.live-card{grid-row:2}
+.grand-prix-layout:has(.live-status.active)>.schedule,.grand-prix-layout:has(.live-status.active)>.circuit-card{grid-row:3}
+@media(max-width:760px){
+  .race-card .countdown{grid-row:4}
+  .grand-prix-layout>.schedule{grid-row:2}
+  .grand-prix-layout>.circuit-card{grid-row:3}
+  .grand-prix-layout>.live-card{grid-row:4}
+  .grand-prix-layout:has(.live-status.active)>.schedule{grid-row:3}
+  .grand-prix-layout:has(.live-status.active)>.circuit-card{grid-row:4}
+}
+
+/* Readability floor: supporting text 13px; reading text and names 14px. */
+:root{--type-label:13px;--type-detail:14px;--type-body:15px;--type-name:14px;--type-result:16px}
+.heading-meta,.race-card>.race-subheader.heading-meta,.weekend-dates.heading-meta,
+.live-heading .live-status,.championship .section-heading .eyebrow,
+.eyebrow,.intro .eyebrow,.round-card>.eyebrow,.section-heading>span:not(.season-mark),
+.race-card .countdown .countdown-heading{letter-spacing:.05em}
+thead,.standings thead th,.standings thead .team-column,
+.schedule thead th,.live-table thead th{letter-spacing:.03em}
+.brand{font-size:14px}
+.circuit-credit,.updated,.header-note,.standings small,.standings .driver-details small{font-size:var(--type-label);line-height:1.6}
+.standings th:first-child,.standings td:first-child{width:68px}
+.standings .team-column{width:90px}
+.standings th:last-child,.standings td:last-child{width:108px}
+@media(max-width:760px){
+  :root{--type-label:13px;--type-detail:14px;--type-body:14px;--type-name:14px;--type-result:15px}
+}
+@media(max-width:480px){
+  .brand{font-size:0}
+  .standings th:first-child,.standings td:first-child{width:36px;padding-left:4px}
+  .standings th:last-child,.standings td:last-child{width:64px;padding-right:4px}
+  .standings .team-column{width:46px}
+  .standings .driver-name,.standings th[scope=row]{font-size:var(--type-name);line-height:1.5;overflow-wrap:anywhere}
+  .standings .driver-identity{gap:8px;align-items:flex-start}
+  .driver-flag{margin-top:3px}
+  .standings thead th{letter-spacing:0}
+  .schedule .status-pill{padding:4px 8px}
+}

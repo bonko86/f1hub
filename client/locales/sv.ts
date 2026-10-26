@@ -3,11 +3,12 @@ export const sv = {
   messages: {
     'app.title': 'F1 · Grand Prix', 'app.home': 'F1 startsida', 'app.unofficial': 'Fristående, inofficiell applikation', 'app.api': 'API',
     'nav.label': 'Huvudmeny', 'nav.overview': 'Översikt', 'nav.statistics': 'Statistik', 'nav.season': 'Säsong',
-    'page.overview': 'NÄSTA RACE', 'page.statistics': 'POÄNGSTÄLLNING', 'page.season': 'SÄSONG',
+    'page.overview': 'DASHBOARD', 'page.statistics': 'POÄNGSTÄLLNING', 'page.season': 'SÄSONG',
     'errors.backend': 'Kan inte nå backend. Senast hämtad information behålls. Försöker igen automatiskt.',
     'errors.updateFailed': 'Uppdateringen misslyckades. Sparad data visas om den finns.',
     'errors.unavailable': 'Informationen är inte tillgänglig just nu.',
     'loading.weekend': 'Hämtar och verifierar tävlingshelgen. Första starten kan ta någon minut…',
+    'race.next': 'Nästa race',
     'race.timeMissing': 'Starttid ej publicerad', 'race.seasonEnded': 'Säsongen är avslutad', 'race.calendarPending': 'Kalender inväntas',
     'race.nextWhenAvailable': 'Nästa Grand Prix visas när kalendern är tillgänglig.', 'race.countdown': 'Nedräkning till racestart',
     'race.awaitingResults': 'Resultat inväntas', 'race.startsIn': 'Startar om', 'race.ongoing': 'Racet pågår',
